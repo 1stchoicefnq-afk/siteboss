@@ -1,0 +1,136 @@
+﻿{
+  "version": "monster-core-v1",
+  "business_rules": {
+    "minimum_job_value": 1500,
+    "tight_access_minimum": 2500,
+    "deposit_percentage_default": 0.25,
+    "payment_terms_days": 7,
+    "late_fee_percentage_per_month": 2,
+    "block_new_work_if_overdue": true,
+    "wet_season_multiplier": 1.15,
+    "supported_services": [
+      "timber_fencing",
+      "colorbond_fencing",
+      "aluminium_fencing",
+      "retaining_walls",
+      "landscaping",
+      "excavation",
+      "pressure_washing"
+    ]
+  },
+  "lead_filtering": {
+    "rules": [
+      {
+        "id": "min_job_value",
+        "when": { "budget_lt_min_job": true },
+        "action": "auto_decline",
+        "message": "Thanks for reaching out. Unfortunately this job is below our minimum service value."
+      },
+      {
+        "id": "tight_access_min",
+        "when": { "access_is_tight_and_budget_lt_tight_min": true },
+        "action": "auto_decline",
+        "message": "Due to restricted access, this job does not meet our minimum requirements."
+      },
+      {
+        "id": "unsupported_service",
+        "when": { "service_not_supported": true },
+        "action": "auto_decline",
+        "message": "This service is not something we currently offer."
+      }
+    ]
+  },
+  "pricing_engine": {
+    "base_rates": {
+      "timber_fencing": 95,
+      "colorbond_fencing": 110,
+      "aluminium_fencing": 130,
+      "retaining_walls": 450,
+      "landscaping": 120,
+      "excavation": 140,
+      "pressure_washing": 8
+    },
+    "multipliers": {
+      "height": {
+        "1.2m": 1.0,
+        "1.5m": 1.15,
+        "1.8m": 1.3,
+        "2.1m": 1.5
+      },
+      "access": {
+        "easy": 1.0,
+        "restricted": 1.15,
+        "tight": 1.35
+      },
+      "ground": {
+        "soft": 1.0,
+        "rocky": 1.25,
+        "unknown": 1.15
+      }
+    },
+    "range": {
+      "low_factor": 0.9,
+      "high_factor": 1.1
+    }
+  },
+  "quote_flow": {
+    "on_accept": [
+      "generate_deposit_invoice",
+      "lock_job_until_paid"
+    ],
+    "deposit": {
+      "percentage": 0.25,
+      "required": true
+    }
+  },
+  "scheduling": {
+    "rules": [
+      {
+        "id": "block_if_no_deposit",
+        "when": { "deposit_paid": false },
+        "action": "block_scheduling"
+      },
+      {
+        "id": "wet_season_buffer",
+        "when": { "wet_season": true },
+        "action": "apply_buffer_days",
+        "days": 2
+      }
+    ]
+  },
+  "variations": {
+    "require_approval": true,
+    "approval_method": "digital_link",
+    "rules": [
+      {
+        "id": "no_approval_no_work",
+        "when": { "variation_approved": false },
+        "action": "block_work"
+      }
+    ]
+  },
+  "job_completion": {
+    "on_complete": [
+      "generate_final_invoice",
+      "send_invoice",
+      "start_payment_timer"
+    ]
+  },
+  "payment_chasing": {
+    "schedule": [
+      { "day": 1, "type": "friendly" },
+      { "day": 7, "type": "firm" },
+      { "day": 14, "type": "final_notice" },
+      { "day": 21, "type": "escalation_warning" }
+    ],
+    "actions": {
+      "overdue": "block_new_work"
+    }
+  },
+  "account_rules": {
+    "if_overdue": {
+      "block_quotes": true,
+      "block_new_jobs": true
+    }
+  }
+}

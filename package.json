@@ -1,0 +1,49 @@
+{
+  "name": "1stchoice-bot-myob",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google-cloud/vision": "^5.3.3",
+    "@googlemaps/google-maps-services-js": "^3.4.2",
+    "axios": "^1.12.2",
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.4.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "csv-stringify": "^6.6.0",
+    "dayjs": "^1.11.18",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.1.0",
+    "googleapis": "^161.0.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "multer": "^2.0.2",
+    "node-fetch": "^2.7.0",
+    "nodemailer": "^7.0.9",
+    "paypal-rest-sdk": "^1.8.1",
+    "pdfkit": "^0.17.2",
+    "request": "^2.88.2",
+    "sqlite3": "^5.1.7",
+    "stripe": "^19.1.0",
+    "twilio": "^5.10.2",
+    "uuid": "^13.0.0"
+  },
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR-USERNAME/1stChoiceBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YOUR-USERNAME/1stChoiceBot/issues"
+  },
+  "homepage": "https://github.com/YOUR-USERNAME/1stChoiceBot#readme",
+  "type": "commonjs"
+}
